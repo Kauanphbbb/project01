@@ -92,4 +92,19 @@ describe('<Home />', () => {
     await user.type(search, 'anything');
     expect(screen.getByText('No posts found')).toBeInTheDocument();
   });
+
+  it('should load more posts', async () => {
+    render(<Home />);
+
+    const noMorePosts = screen.getByText('No posts found');
+
+    await waitForElementToBeRemoved(noMorePosts);
+
+    const button = screen.getByRole('button', { name: /load more posts/i });
+
+    await user.click(button);
+
+    expect(screen.getByRole('heading', { name: 'title3' })).toBeInTheDocument();
+    expect(button).toBeDisabled();
+  });
 });
